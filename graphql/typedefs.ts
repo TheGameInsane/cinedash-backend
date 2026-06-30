@@ -11,7 +11,10 @@ export const typeDefs = `#graphql
 
     type WatchlistItem {
         id: Int!
-        media_type: String!
+        type: String!
+        title: String!
+        poster: String!
+        genre: [Int!]
     }
 
     type User {
@@ -38,9 +41,9 @@ export const typeDefs = `#graphql
         logout: Boolean!
         completeProfile(dateOfBirth: String!): User!
         createUser(username: String!, email: String!): User!
-        addMovieToHistory(userId: ID!, mediaId: Int!, type: String!, title: String!, poster: String!, genre: [Int!], rating: Float!): User!
+        addMovieToHistory(mediaId: Int!, type: String!, title: String!, poster: String!, genre: [Int!], rating: Float!): User!
         addToWatchHistory(mediaId: Int!, type: String!, title: String!, poster: String!, genre: [Int!], rating: Float!): User!
-        addToWatchlist(mediaId: Int!, media_type: String!): User!
-        removeFromWatchlist(mediaId: Int!, media_type: String!): User!
+        addToWatchlist(mediaId: Int!, type: String!, title: String!, poster: String!, genre: [Int!]): User!
+        removeFromWatchlist(mediaId: Int!, type: String!): User!
     }
 `;

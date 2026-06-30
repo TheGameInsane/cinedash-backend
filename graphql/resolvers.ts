@@ -149,9 +149,12 @@ export const resolvers = {
       const user = new User({ username, email });
       return await user.save();
     },
-    addMovieToHistory: async (_: any, { userId, mediaId, type, title, poster, genre, rating }: { userId: string, mediaId: number, type: string, title: string, poster: string, genre: number[], rating: number }) => {
+    addMovieToHistory: async (_: any, { mediaId, type, title, poster, genre, rating }: { mediaId: number, type: string, title: string, poster: string, genre: number[], rating: number }, context: Context) => {
+      if (!context.userId) {
+        throw new Error('Authentication required');
+      }
       return await User.findByIdAndUpdate(
-        userId,
+        context.userId,
         { 
           $push: { watchHistory: { id: mediaId, type, title, poster, genre, rating, watchedAt: new Date() } } 
         },
@@ -172,29 +175,29 @@ export const resolvers = {
       );
     },
 
-    addToWatchlist: async (_: any, { mediaId, media_type }: { mediaId: number, media_type: string }, context: Context) => {
+    addToWatchlist: async (_: any, { mediaId, type, title, poster, genre }: { mediaId: number, type: string, title: string, poster: string, genre: number[] }, context: Context) => {
       if (!context.userId) {
         throw new Error('Authentication required');
       }
       // Check if already in watchlist
       const user = await User.findById(context.userId);
-      if (user?.watchlist.some(w => w.id === mediaId && w.media_type === media_type)) {
+      if (user?.watchlist.some(w => w.id === mediaId && w.type === type)) {
         return user;
       }
       return await User.findByIdAndUpdate(
         context.userId,
-        { $push: { watchlist: { id: mediaId, media_type } } },
+        { $push: { watchlist: { id: mediaId, type, title, poster, genre } } },
         { new: true }
       );
     },
 
-    removeFromWatchlist: async (_: any, { mediaId, media_type }: { mediaId: number, media_type: string }, context: Context) => {
+    removeFromWatchlist: async (_: any, { mediaId, type }: { mediaId: number, type: string }, context: Context) => {
       if (!context.userId) {
         throw new Error('Authentication required');
       }
       return await User.findByIdAndUpdate(
         context.userId,
-        { $pull: { watchlist: { id: mediaId, media_type } } },
+        { $pull: { watchlist: { id: mediaId, type } } },
         { new: true }
       );
     },

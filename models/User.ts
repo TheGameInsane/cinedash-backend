@@ -12,7 +12,10 @@ export interface IWatchHistory {
 
 export interface IWatchlistItem {
   id: number;
-  media_type: string; 
+  type: string;
+  title: string;
+  poster: string;
+  genre:[number];
 }
 
 export interface IUser extends Document {
@@ -39,7 +42,10 @@ const WatchHistorySchema = new Schema<IWatchHistory>({
 
 const WatchlistItemSchema = new Schema<IWatchlistItem>({
   id: { type: Number, required: true },
-  media_type: { type: String, required: true, enum: ['movie', 'tv'] },
+  type: { type: String, required: true },
+  title: { type: String, required: true },
+  poster: { type: String, required: true },
+  genre: [{ type: Number }]
 }, { _id: false });
 
 const UserSchema = new Schema<IUser>({
