@@ -56,6 +56,13 @@ const startServer = async () => {
     })
   );
 
+  app.get('ping', (req, res) => {
+    res.status(200).json({
+      message: 'pong',
+      status: 'healthy'
+    });
+  })
+
   app.listen(PORT, () => {
     console.log(`Server ready at http://localhost:${PORT}/graphql`);
   });
