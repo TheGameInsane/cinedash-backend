@@ -8,7 +8,7 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID, process.env.
 const COOKIE_OPTIONS = {
   httpOnly: true,
   secure: process.env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  sameSite: 'none' as const,
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   path: '/',
 };
