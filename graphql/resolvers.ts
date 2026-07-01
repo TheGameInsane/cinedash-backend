@@ -1,5 +1,5 @@
-import { User } from '../models/User';
-import { hashPassword, comparePassword, generateToken } from '../utils/auth';
+import { User } from '../models/User.js';
+import { hashPassword, comparePassword, generateToken } from '../utils/auth.js';
 import { OAuth2Client } from 'google-auth-library';
 import { Response } from 'express';
 

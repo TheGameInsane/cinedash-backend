@@ -7,10 +7,10 @@ dotenv.config();
 
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@as-integrations/express5';
-import { connectDB } from './config/db';
-import { typeDefs } from './graphql/typedefs';
-import { resolvers } from './graphql/resolvers';
-import { verifyToken } from './utils/auth';
+import { connectDB } from './config/db.js';
+import { typeDefs } from './graphql/typedefs.js';
+import { resolvers } from './graphql/resolvers.js';
+import { verifyToken } from './utils/auth.js';
 
 const startServer = async () => {
   const app = express();
